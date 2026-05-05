@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Can AI Police Report Writing Tools Be Trusted?</title>
+    <title>AI Generated Police Reports</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -24,57 +24,98 @@
             line-height: 1.8;
         }
 
-        /* ── Layout helpers ── */
-        .section      { max-width: 760px; margin: 0 auto; padding: 72px 28px; }
-        .section-wide { max-width: 940px; margin: 0 auto; padding: 56px 28px; }
+        /* ── Chapter shell ── */
+        .chapter {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 28px;
+            position: relative;
+        }
 
-        hr.divider {
-            display: block;
-            width: 80px;
-            height: 1px;
-            background: var(--border);
-            border: none;
+        /* ── Reveal animation ── */
+        .ch-inner {
+            width: 100%;
+            max-width: 680px;
             margin: 0 auto;
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .ch-inner--wide { max-width: 900px; }
+        .ch-inner--med  { max-width: 520px; }
+
+        .ch-inner.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Scroll hint ── */
+        .scroll-hint {
+            position: absolute;
+            bottom: 36px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 0.7rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: hint-in 0.5s ease 2s forwards;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .scroll-hint.gone { opacity: 0 !important; animation: none; }
+
+        @keyframes hint-in { to { opacity: 1; } }
+
+        .scroll-hint svg {
+            animation: hint-bounce 1.6s ease-in-out infinite;
+        }
+
+        @keyframes hint-bounce {
+            0%, 100% { transform: translateY(0); }
+            50%       { transform: translateY(7px); }
         }
 
         /* ── Typography ── */
         .page-title {
-            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-size: clamp(2rem, 6vw, 3.5rem);
             font-weight: normal;
             letter-spacing: 0.01em;
             text-align: center;
-            padding-top: 72px;
-            margin-bottom: 28px;
-            color: var(--text);
+            margin-bottom: 36px;
         }
 
         .intro-text {
-            font-size: clamp(1.05rem, 2.5vw, 1.28rem);
+            font-size: clamp(1.05rem, 2.2vw, 1.22rem);
             text-align: center;
         }
 
         .story-text {
-            font-size: clamp(1rem, 2vw, 1.13rem);
+            font-size: clamp(1rem, 2vw, 1.15rem);
         }
 
         .bridge-text {
-            font-size: clamp(1rem, 2vw, 1.13rem);
+            font-size: clamp(1.2rem, 3vw, 1.75rem);
             text-align: center;
-            font-style: italic;
             color: var(--muted);
+            line-height: 1.6;
         }
 
-        /* ── Hallucination slideshow ── */
-        .slideshow-wrap {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 44px 28px 56px;
-        }
-
+        /* ── Slideshow ── */
         .slideshow-frame {
             position: relative;
-            width: min(720px, 92vw);
+            width: 100%;
             aspect-ratio: 3 / 1;
             background: #fff;
             border-radius: 6px;
@@ -94,26 +135,22 @@
             height: 100%;
             object-fit: contain;
             opacity: 0;
-            transition: opacity 0.9s ease;
+            transition: opacity 0.6s ease;
         }
 
         .slide-img.active { opacity: 1; }
 
-
         /* ── Video ── */
-        .video-wrap {
-            display: flex;
-            justify-content: center;
-        }
+        .video-wrap { display: flex; justify-content: center; }
 
         .video-wrap video {
-            width: min(480px, 90vw);
+            width: min(640px, 90vw);
             border-radius: 6px;
             box-shadow: 0 8px 36px var(--shadow);
             display: block;
         }
 
-        /* ── Typewriter report ── */
+        /* ── Report ── */
         .report-shell {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -144,24 +181,17 @@
             word-break: break-word;
         }
 
-        /* Before text fades when done */
-        #txt-before {
-            transition: opacity 0.9s ease;
-        }
+        #txt-before { transition: opacity 0.9s ease; }
 
         #txt-hi {
             border-radius: 2px;
             transition: background-color 0.55s ease;
         }
 
-        #txt-hi.hi {
-            background: var(--highlight);
-            padding: 1px 3px;
-        }
+        #txt-hi.hi { background: var(--highlight); padding: 1px 3px; }
 
         .report-body.done #txt-before { opacity: 0.16; }
 
-        /* Blinking caret */
         .caret {
             display: inline-block;
             width: 0.45em;
@@ -175,11 +205,6 @@
         @keyframes blink { 50% { opacity: 0; } }
 
         /* ── CTA ── */
-        .cta {
-            text-align: center;
-            padding: 32px 28px 96px;
-        }
-
         .cta-btn {
             padding: 13px 46px;
             font-family: Georgia, serif;
@@ -195,80 +220,108 @@
 
         .cta-btn:hover { background: #333; }
 
-        /* ── Mobile tweaks ── */
+        /* ── Mobile ── */
         @media (max-width: 600px) {
-            .section          { padding: 48px 20px; }
-            .section-wide     { padding: 36px 20px; }
-            .slideshow-wrap   { padding: 28px 20px 44px; }
-            .report-body      { padding: 20px 18px 28px; }
+            .chapter      { padding: 60px 20px; }
+            .report-body  { padding: 20px 18px 28px; }
         }
     </style>
 </head>
 <body>
 
-<!-- 1. Intro -->
-<div class="section">
-    <h1 class="page-title">AI Generated Police Reports</h1>
-    <p class="intro-text">Across the United States, Police Departments are starting to use AI to automate report writing. Police incident reports are often used as evidence in legal proceedings where a single mistake could have huge implications. Knowing that Large Language Models can often hallucinate and stretch the truth we wondered if AI Police Report Writing Tools could be trusted with this important task.</p>
-</div>
-
-<hr class="divider">
-
-<!-- 2. Hallucination slideshow -->
-<div class="slideshow-wrap">
-    <div class="slideshow-frame" id="slideshowFrame">
-        <img class="slide-img" src="images/hallucination_examples/cnet_hallucination.png"     alt="CNET AI hallucination example">
-        <img class="slide-img" src="images/hallucination_examples/deloitte_hallucination.png" alt="Deloitte AI hallucination example">
-        <img class="slide-img" src="images/hallucination_examples/google_hallucination.png"   alt="Google AI hallucination example">
-        <img class="slide-img" src="images/hallucination_examples/lawyer_hallucination.png"   alt="Lawyer AI hallucination example">
-        <img class="slide-img" src="images/hallucination_examples/midlands_hallucination.png" alt="Midlands AI hallucination example">
-        <img class="slide-img" src="images/hallucination_examples/research_hallucination.png" alt="Research AI hallucination example">
-        <img class="slide-img" src="images/hallucination_examples/utah_pd_hallucination.png"  alt="Utah PD AI hallucination example">
+<!-- Ch 1: Title + intro -->
+<section class="chapter">
+    <div class="ch-inner" data-reveal>
+        <h1 class="page-title">AI Generated Police Reports</h1>
+        <p class="intro-text">Across the United States, Police Departments are starting to use AI to automate report writing. Police incident reports are often used as evidence in legal proceedings where a single mistake could have huge implications. Knowing that Large Language Models can often hallucinate and stretch the truth we wondered if AI Police Report Writing Tools could be trusted with this important task.</p>
     </div>
-</div>
-
-<hr class="divider">
-
-<!-- 3. Story -->
-<div class="section">
-    <p class="story-text">In 2023, Calvin Riley Sr was pulled over and arrested for a DUI. The human written police report claimed that an open bottle of vodka was found in the car, but body cam footage later showed the police officer, Kiersten Oliver, opened the bottle herself, dumped the contents and then put the empty bottle back into the car.</p>
-</div>
-
-<!-- 4. Video (plays silently like a GIF) -->
-<div class="section-wide">
-    <div class="video-wrap">
-        <video id="vid" muted loop playsinline preload="metadata">
-            <source src="images/vodka_bottle.mov">
-        </video>
+    <div class="scroll-hint" id="scrollHint">
+        scroll
+        <svg width="14" height="18" viewBox="0 0 14 18" fill="none">
+            <path d="M7 1v14M1 10l6 7 6-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
     </div>
-</div>
+</section>
 
-<hr class="divider">
-
-<!-- 5. Bridge -->
-<div class="section">
-    <p class="bridge-text">Would an AI powered report-writing tool cover for the officer? We created our own to find out:</p>
-</div>
-
-<!-- 6. Typing + highlight -->
-<div class="section">
-    <div class="report-shell">
-        <div class="report-bar">
-            <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+<!-- Ch 2: Hallucination slideshow -->
+<section class="chapter">
+    <div class="ch-inner ch-inner--wide" data-reveal>
+        <div class="slideshow-frame" id="slideshowFrame">
+            <img class="slide-img" src="images/hallucination_examples/cnet_hallucination.png"     alt="CNET AI hallucination example">
+            <img class="slide-img" src="images/hallucination_examples/deloitte_hallucination.png" alt="Deloitte AI hallucination example">
+            <img class="slide-img" src="images/hallucination_examples/google_hallucination.png"   alt="Google AI hallucination example">
+            <img class="slide-img" src="images/hallucination_examples/lawyer_hallucination.png"   alt="Lawyer AI hallucination example">
+            <img class="slide-img" src="images/hallucination_examples/midlands_hallucination.png" alt="Midlands AI hallucination example">
+            <img class="slide-img" src="images/hallucination_examples/research_hallucination.png" alt="Research AI hallucination example">
+            <img class="slide-img" src="images/hallucination_examples/utah_pd_hallucination.png"  alt="Utah PD AI hallucination example">
         </div>
-        <div class="report-body" id="reportBody"><span id="txt-before"></span><span id="txt-pre"></span><span id="txt-hi"></span><span class="caret" id="caret"></span></div>
     </div>
-</div>
+</section>
 
-<!-- 7. CTA -->
-<div class="cta">
-    <button class="cta-btn">Read the report</button>
-</div>
+<!-- Ch 3: Calvin Riley story -->
+<section class="chapter">
+    <div class="ch-inner" data-reveal>
+        <p class="story-text">In 2023, Calvin Riley Sr was pulled over and arrested for a DUI. The human written police report claimed that an open bottle of vodka was found in the car, but body cam footage later showed the police officer, Kiersten Oliver, opened the bottle herself, dumped the contents and then put the empty bottle back into the car.</p>
+    </div>
+</section>
+
+<!-- Ch 4: Body cam video -->
+<section class="chapter">
+    <div class="ch-inner" data-reveal>
+        <div class="video-wrap">
+            <video id="vid" muted loop playsinline preload="metadata">
+                <source src="images/vodka_bottle.mov">
+            </video>
+        </div>
+    </div>
+</section>
+
+<!-- Ch 5: Bridge -->
+<section class="chapter">
+    <div class="ch-inner ch-inner--med" data-reveal>
+        <p class="bridge-text">Would an AI powered report-writing tool cover for the officer? We created our own to find out.</p>
+    </div>
+</section>
+
+<!-- Ch 6: Typewriter report -->
+<section class="chapter">
+    <div class="ch-inner" data-reveal id="report-chapter">
+        <div class="report-shell">
+            <div class="report-bar">
+                <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+            </div>
+            <div class="report-body" id="reportBody"><span id="txt-before"></span><span id="txt-pre"></span><span id="txt-hi"></span><span class="caret" id="caret"></span></div>
+        </div>
+    </div>
+</section>
+
+<!-- Ch 7: CTA -->
+<section class="chapter">
+    <div class="ch-inner" data-reveal style="text-align:center">
+        <button class="cta-btn">Read the report</button>
+    </div>
+</section>
 
 <script>
 (function () {
 
-    /* ── Crossfade slideshow ────────────────────────────── */
+    /* ── Reveal on scroll ────────────────────────────────── */
+    const revealObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('visible');
+            if (e.target.id === 'report-chapter') startTyping();
+            revealObs.unobserve(e.target);
+        });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => revealObs.observe(el));
+
+    /* ── Scroll hint ─────────────────────────────────────── */
+    const hint = document.getElementById('scrollHint');
+    window.addEventListener('scroll', () => hint.classList.add('gone'), { once: true });
+
+    /* ── Crossfade slideshow ─────────────────────────────── */
     const frame  = document.getElementById('slideshowFrame');
     const slides = Array.from(frame.querySelectorAll('.slide-img'));
     let current = 0;
@@ -280,44 +333,36 @@
         slides[current].classList.add('active');
     }
 
-    function startTimer() {
-        slideTimer = setInterval(() => goTo(current + 1), 3000);
-    }
-
-    function resetTimer() {
-        clearInterval(slideTimer);
-        startTimer();
-    }
-
     function startSlideshow() {
+        if (slideTimer) return;
+        current = 0;
         slides[0].classList.add('active');
-        startTimer();
+        slideTimer = setInterval(() => goTo(current + 1), 2200);
     }
 
     function stopSlideshow() {
         clearInterval(slideTimer);
+        slideTimer = null;
         slides[current].classList.remove('active');
         current = 0;
     }
 
-    // Pause on hover so users can read a slide
     frame.addEventListener('mouseenter', () => clearInterval(slideTimer));
-    frame.addEventListener('mouseleave', () => { if (slideTimer !== null) startTimer(); });
+    frame.addEventListener('mouseleave', () => { if (slideTimer !== null) slideTimer = setInterval(() => goTo(current + 1), 2200); });
 
-    new IntersectionObserver(([e]) => {
-        if (e.isIntersecting) startSlideshow();
-        else stopSlideshow();
-    }, { threshold: 0.2 }).observe(frame);
+    new IntersectionObserver(
+        ([e]) => { if (e.isIntersecting) startSlideshow(); else stopSlideshow(); },
+        { threshold: 0.2 }
+    ).observe(frame);
 
-    /* ── Video: play when in view, pause when not ──────── */
+    /* ── Video ───────────────────────────────────────────── */
     const vid = document.getElementById('vid');
-
     new IntersectionObserver(
         ([e]) => { if (e.isIntersecting) vid.play().catch(() => {}); else vid.pause(); },
         { threshold: 0.25 }
     ).observe(vid);
 
-    /* ── Typewriter ─────────────────────────────────────── */
+    /* ── Typewriter ──────────────────────────────────────── */
     const BEFORE =
         'On May 7, 2023, I, Officer Kiersten Oliver, was on patrol in Tallahassee, FL, when I observed a vehicle ' +
         'traveling at a high rate of speed without headlights on Monroe Street. I conducted a traffic stop and ' +
@@ -333,11 +378,8 @@
         'Given the observations and Mr. Riley\'s admission of drinking, I requested he perform field sobriety ' +
         'exercises, which he refused. ';
 
-    const PRE =
-        'I then conducted a search of his vehicle, during which I detected a strong odor of alcohol and ';
-
-    const HI =
-        'found an open container of vodka.';
+    const PRE = 'I then conducted a search of his vehicle, during which I detected a strong odor of alcohol and ';
+    const HI  = 'found an open container of vodka.';
 
     const elBefore = document.getElementById('txt-before');
     const elPre    = document.getElementById('txt-pre');
@@ -352,7 +394,7 @@
         typeStarted = true;
 
         let bi = 0, pi = 0, hi = 0;
-        const SPEED = 14; // ms per character
+        const SPEED = 14;
 
         const tick = setInterval(() => {
             if (bi < BEFORE.length) {
@@ -367,24 +409,15 @@
             } else {
                 clearInterval(tick);
                 caret.style.display = 'none';
-
-                // Step 1: fade out the before-text
+                // Step 1: fade everything else out
                 setTimeout(() => {
                     body.classList.add('done');
-
-                    // Step 2: after fade completes, highlight the phrase
-                    setTimeout(() => {
-                        elHi.classList.add('hi');
-                    }, 950);
+                    // Step 2: highlight the phrase after fade settles
+                    setTimeout(() => elHi.classList.add('hi'), 950);
                 }, 380);
             }
         }, SPEED);
     }
-
-    new IntersectionObserver(
-        ([e]) => { if (e.isIntersecting) startTyping(); },
-        { threshold: 0.3 }
-    ).observe(body);
 
 })();
 </script>
