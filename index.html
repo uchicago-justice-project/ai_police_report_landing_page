@@ -143,33 +143,14 @@
         }
         sup a:hover { color: var(--text); }
 
-        /* ── Slideshow ── */
-        .slideshow-frame {
-            position: relative;
+        /* ── Cover image ── */
+        .cover-img {
             width: 100%;
-            aspect-ratio: 3 / 1;
-            background: #fff;
             border-radius: 6px;
-            border: 1px solid var(--border);
             box-shadow: 0 4px 22px var(--shadow);
-            overflow: hidden;
+            margin-bottom: 36px;
+            display: block;
         }
-
-        @media (max-width: 500px) {
-            .slideshow-frame { aspect-ratio: 2.4 / 1; }
-        }
-
-        .slide-img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-            opacity: 0;
-            transition: opacity 0.6s ease;
-        }
-
-        .slide-img.active { opacity: 1; }
 
         /* ── Logos ── */
         .logos-layout {
@@ -177,6 +158,9 @@
             flex-direction: column;
             align-items: center;
             gap: 36px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .logos-row-top,
@@ -184,6 +168,10 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
+        }
+
+        .logos-row-bottom {
             gap: clamp(32px, 6vw, 80px);
         }
 
@@ -205,16 +193,18 @@
             display: block;
             object-fit: contain;
             max-height: 80px;
-            max-width: 200px;
             width: auto;
             height: auto;
         }
 
+        .logo-paris {
+            width: 100%;
+        }
+
         .logo-paris img {
-            height: 560px;
+            width: 100%;
+            height: auto;
             max-height: none;
-            width: auto;
-            max-width: 100%;
         }
 
         /* ── Video ── */
@@ -493,6 +483,7 @@
 <section class="chapter">
     <div class="ch-inner" data-reveal>
         <h1 class="page-title">AI Generated Police Reports</h1>
+        <img class="cover-img" src="images/cover.jpg" alt="Cover image">
         <p class="body-text">Across the United States, Police Departments are starting to use AI to automate report writing. These AI-assisted police reports are generated in numerous ways from simply prompting a chatbot like ChatGPT to write a full report based on a few sentences as one ICE Agent did in Chicago<sup><a href="https://www.statesman.com/opinion/editorials/article/chatbot-written-police-reports-time-put-21221448.php" target="_blank" rel="noopener">1</a></sup> to more complex tools that utilize officers body worn camera footage to generate an incident report such as Axon's DraftOne or Code4.</p>
         <p class="body-text">Police Departments have begun contracting with private companies to utilize these tools daily. Many of these tools automatically upload camera-footage from an incident, ask the officers a few questions, then submits either the video or a transcript of the audio to an LLM which generates a "first-draft" of a report. Promised as a "force multiplier" even though the evidence so far has shown it doesn't save officer time<sup><a href="https://www.crimrxiv.com/pub/nxbmzp2j/release/1" target="_blank" rel="noopener">2</a></sup> and raises some obvious concerns given LLM's tendency to hallucinate. One famous example already involved Axon's DraftOne turning an officer into a frog in its report.<sup><a href="https://www.fox13now.com/news/local-news/summit-county/how-utah-police-departments-are-using-ai-to-keep-streets-safer" target="_blank" rel="noopener">3</a></sup></p>
     </div>
@@ -504,22 +495,7 @@
     </div>
 </section>
 
-<!-- Ch 2: Hallucination slideshow -->
-<section class="chapter">
-    <div class="ch-inner ch-inner--wide" data-reveal>
-        <div class="slideshow-frame" id="slideshowFrame">
-            <img class="slide-img" src="images/hallucination_examples/cnet_hallucination.png"     alt="CNET AI hallucination example">
-            <img class="slide-img" src="images/hallucination_examples/deloitte_hallucination.png" alt="Deloitte AI hallucination example">
-            <img class="slide-img" src="images/hallucination_examples/google_hallucination.png"   alt="Google AI hallucination example">
-            <img class="slide-img" src="images/hallucination_examples/lawyer_hallucination.png"   alt="Lawyer AI hallucination example">
-            <img class="slide-img" src="images/hallucination_examples/midlands_hallucination.png" alt="Midlands AI hallucination example">
-            <img class="slide-img" src="images/hallucination_examples/research_hallucination.png" alt="Research AI hallucination example">
-            <img class="slide-img" src="images/hallucination_examples/utah_pd_hallucination.png"  alt="Utah PD AI hallucination example">
-        </div>
-    </div>
-</section>
-
-<!-- Ch 3: Our Question -->
+<!-- Ch 2: Our Question -->
 <section class="chapter">
     <div class="ch-inner ch-inner--med" data-reveal>
         <p class="question-text">Our Question: What kind of hallucinations are AI assisted police report tools capable of producing?</p>
@@ -530,6 +506,7 @@
 <section class="chapter">
     <div class="ch-inner" data-reveal>
         <p class="body-text">Studying whether these tools hallucinate and how often has proved challenging if not almost impossible. A recent report<sup><a href="https://www.eff.org/deeplinks/2025/07/axons-draft-one-designed-defy-transparency" target="_blank" rel="noopener">4</a></sup> by the Electronic Frontier Foundation found that Axon's DraftOne didn't save the original drafts written by AI making it impossible to know if a report was written by AI or not. Given the scrutiny these tools are already receiving it's unlikely that companies will allow independent research on their outputs.</p>
+        <img class="cover-img" src="images/eff_report.png" alt="EFF report on Axon DraftOne" style="margin-top: 36px; margin-bottom: 0;">
     </div>
 </section>
 
@@ -595,7 +572,7 @@
 <!-- Ch 10: Bridge text -->
 <section class="chapter">
     <div class="ch-inner ch-inner--med" data-reveal>
-        <p class="bridge-text">Would an AI powered report-writing tool cover for the officer?</p>
+        <p class="bridge-text">How would AI draft a report about the officer opening the vodka bottle?</p>
     </div>
 </section>
 
@@ -687,6 +664,7 @@
 <section class="chapter">
     <div class="ch-inner" data-reveal style="text-align:center">
         <button class="cta-btn">Read the report</button>
+        <p style="margin-top: 20px; font-size: 0.95rem; color: var(--muted);">Interested in using PARIS? <a href="#" style="color: var(--muted); text-decoration: underline;">Apply Here</a>.</p>
     </div>
 </section>
 
@@ -708,42 +686,6 @@
     /* ── Scroll hint ─────────────────────────────────────── */
     const hint = document.getElementById('scrollHint');
     window.addEventListener('scroll', () => hint.classList.add('gone'), { once: true });
-
-    /* ── Crossfade slideshow ─────────────────────────────── */
-    const frame  = document.getElementById('slideshowFrame');
-    const slides = Array.from(frame.querySelectorAll('.slide-img'));
-    let current = 0;
-    let slideTimer = null;
-
-    function goTo(idx) {
-        slides[current].classList.remove('active');
-        current = (idx + slides.length) % slides.length;
-        slides[current].classList.add('active');
-    }
-
-    function startSlideshow() {
-        if (slideTimer) return;
-        current = 0;
-        slides[0].classList.add('active');
-        slideTimer = setInterval(() => goTo(current + 1), 2200);
-    }
-
-    function stopSlideshow() {
-        clearInterval(slideTimer);
-        slideTimer = null;
-        slides[current].classList.remove('active');
-        current = 0;
-    }
-
-    frame.addEventListener('mouseenter', () => clearInterval(slideTimer));
-    frame.addEventListener('mouseleave', () => {
-        if (slideTimer !== null) slideTimer = setInterval(() => goTo(current + 1), 2200);
-    });
-
-    new IntersectionObserver(
-        ([e]) => { if (e.isIntersecting) startSlideshow(); else stopSlideshow(); },
-        { threshold: 0.2 }
-    ).observe(frame);
 
     /* ── Video ───────────────────────────────────────────── */
     const vid        = document.getElementById('vid');
@@ -775,16 +717,11 @@
     const BEFORE =
         'On May 7, 2023, I, Officer Kiersten Oliver, was on patrol in Tallahassee, FL, when I observed a vehicle ' +
         'traveling at a high rate of speed without headlights on Monroe Street. I conducted a traffic stop and ' +
-        'approached the driver, identified as Calvin Riley Sr. Upon contact, I noticed that the vehicle only had ' +
-        'its parking lights on, which I pointed out to Mr. Riley. He was unable to provide a driver\'s license and ' +
+        'approached the driver, identified as Calvin Riley Sr. He was unable to provide a driver\'s license and ' +
         'stated he did not carry a wallet but used his phone for transactions.' +
         '\n\n' +
         'During our interaction, Mr. Riley exhibited signs of impairment, including slurred speech and watery, ' +
-        'bloodshot eyes. He admitted to having consumed beers at a local establishment named Pockets. A background ' +
-        'check revealed that Mr. Riley\'s driver\'s license was suspended. I informed him of this, and he initially ' +
-        'denied knowledge of the suspension.' +
-        '\n\n' +
-        'Given the observations and Mr. Riley\'s admission of drinking, I requested he perform field sobriety ' +
+        'bloodshot eyes. Given the observations and Mr. Riley\'s admission of drinking, I requested he perform field sobriety ' +
         'exercises, which he refused. ';
 
     const PRE = 'I then conducted a search of his vehicle, during which I detected a strong odor of alcohol and ';
@@ -803,7 +740,7 @@
         typeStarted = true;
 
         let bi = 0, pi = 0, hi = 0;
-        const SPEED = 14;
+        const SPEED = 12;
 
         const tick = setInterval(() => {
             if (bi < BEFORE.length) {
@@ -825,6 +762,7 @@
             }
         }, SPEED);
     }
+
 
     /* ── Bar chart ───────────────────────────────────────── */
     const chartWrap = document.getElementById('chartWrap');
