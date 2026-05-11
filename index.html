@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Generated Police Reports</title>
+    <title>Hallucinations in AI Assisted Police Reports</title>
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -482,10 +482,10 @@
 <!-- Ch 1: Title + intro -->
 <section class="chapter">
     <div class="ch-inner" data-reveal>
-        <h1 class="page-title">AI Generated Police Reports</h1>
+        <h1 class="page-title">Hallucinations in AI Assisted Police Reports</h1>
+        <p style="text-align:center; color:var(--muted); font-size:0.95rem; letter-spacing:0.04em; margin-bottom:36px;">Robert Vargas, Gabe Rojas, David Hackett &amp; Dan Sutton<br><span style="font-style:italic;">Illustrations by Vero Martinez</span></p>
         <img class="cover-img" src="images/cover.jpg" alt="Cover image">
-        <p class="body-text">Across the United States, Police Departments are starting to use AI to automate report writing. These AI-assisted police reports are generated in numerous ways from simply prompting a chatbot like ChatGPT to write a full report based on a few sentences as one ICE Agent did in Chicago<sup><a href="https://www.statesman.com/opinion/editorials/article/chatbot-written-police-reports-time-put-21221448.php" target="_blank" rel="noopener">1</a></sup> to more complex tools that utilize officers body worn camera footage to generate an incident report such as Axon's DraftOne or Code4.</p>
-        <p class="body-text">Police Departments have begun contracting with private companies to utilize these tools daily. Many of these tools automatically upload camera-footage from an incident, ask the officers a few questions, then submits either the video or a transcript of the audio to an LLM which generates a "first-draft" of a report. Promised as a "force multiplier" even though the evidence so far has shown it doesn't save officer time<sup><a href="https://www.crimrxiv.com/pub/nxbmzp2j/release/1" target="_blank" rel="noopener">2</a></sup> and raises some obvious concerns given LLM's tendency to hallucinate. One famous example already involved Axon's DraftOne turning an officer into a frog in its report.<sup><a href="https://www.fox13now.com/news/local-news/summit-county/how-utah-police-departments-are-using-ai-to-keep-streets-safer" target="_blank" rel="noopener">3</a></sup></p>
+        <p class="body-text">Across the United States, Police Departments are using AI to help write reports. These AI-assisted police reports are generated in numerous ways from simply prompting ChatGPT as one ICE Agent did in Chicago<sup><a href="https://cst.brightspotcdn.com/49/34/daecfb4d4b86971a884bd736a564/ellisopinion.pdf" target="_blank" rel="noopener">1</a></sup> to more complex tools that use body worn camera video footage, or transcripts of them, to generate an incident report draft. Although most attention on these tools centers on whether or not they actually help save officer time with filing paperwork, they also raise concerns given LLMs' tendency to hallucinate. One famous example already involved Axon's DraftOne turning an officer into a frog in its report. More seriously, inaccuracies in police reports can cost someone their freedom. With these motivations, we designed a research study.</p>
     </div>
     <div class="scroll-hint" id="scrollHint">
         scroll
@@ -498,14 +498,14 @@
 <!-- Ch 2: Our Question -->
 <section class="chapter">
     <div class="ch-inner ch-inner--med" data-reveal>
-        <p class="question-text">Our Question: What kind of hallucinations are AI assisted police report tools capable of producing?</p>
+        <p class="question-text">Our Research Question: What do AI assisted police report tools hallucinate about?</p>
     </div>
 </section>
 
 <!-- Ch 4: Research challenges -->
 <section class="chapter">
     <div class="ch-inner" data-reveal>
-        <p class="body-text">Studying whether these tools hallucinate and how often has proved challenging if not almost impossible. A recent report<sup><a href="https://www.eff.org/deeplinks/2025/07/axons-draft-one-designed-defy-transparency" target="_blank" rel="noopener">4</a></sup> by the Electronic Frontier Foundation found that Axon's DraftOne didn't save the original drafts written by AI making it impossible to know if a report was written by AI or not. Given the scrutiny these tools are already receiving it's unlikely that companies will allow independent research on their outputs.</p>
+        <p class="body-text">Studying hallucinations in technologies used by police is extremely challenging. A recent report<sup><a href="https://www.eff.org/deeplinks/2025/07/axons-draft-one-designed-defy-transparency" target="_blank" rel="noopener">2</a></sup> by the Electronic Frontier Foundation found that Axon's DraftOne didn't save the original drafts written by AI making it impossible to know if a report was written by AI or not. Given police and the tech sector's aversion to independent audits, it's unlikely that researchers or oversight groups will gain access to properly evaluate these technologies before they become widely adopted across the country. To overcome these barriers, the UChicago Justice Project brought together software engineers, social scientists, and legal scholars at Stanford University to create our own AI assisted Police Report writing tool.</p>
         <img class="cover-img" src="images/eff_report.png" alt="EFF report on Axon DraftOne" style="margin-top: 36px; margin-bottom: 0;">
     </div>
 </section>
@@ -513,7 +513,7 @@
 <!-- Ch 5: PARIS intro -->
 <section class="chapter">
     <div class="ch-inner ch-inner--med" data-reveal>
-        <p class="bridge-text">To get around this, researchers at UChicago and Stanford built their own version of this tool called PARIS (Police AI Report and Incident Simulator).</p>
+        <p class="bridge-text">It's called PARIS, the Police AI Report and Incident Simulator.</p>
     </div>
 </section>
 
@@ -541,14 +541,14 @@
 <!-- Ch 7: PARIS description -->
 <section class="chapter">
     <div class="ch-inner" data-reveal>
-        <p class="body-text">PARIS simulates two of the most common versions of AI Police Report writing tools. Both of its pipelines take body camera footage from a police incident and ask the user to answer some simple questions related to the video. The first transcribes the video and submits the written version of the audio to an LLM, while the second takes a multi-modal approach uploading the video directly to an LLM. In both cases the LLM is given specific instructions to be as objective and neutral as possible in writing a report based on the footage. Additionally in both cases the LLM's temperature is set to 0 which limits its creativity and should in theory make it less likely to hallucinate.</p>
+        <p class="body-text">PARIS simulates the most common versions of AI Police Report writing tools based on publicly available information on how companies are building these tools. These are not exact replicas of tools like Axon's Draft One. Instead, we configured PARIS as conservatively as possible, setting the LLM's temperature to zero (which limits its creativity), and prompting it using language from how county prosecutors instruct officers to write reports objectively.</p>
     </div>
 </section>
 
 <!-- Ch 8: Calvin Riley story -->
 <section class="chapter">
     <div class="ch-inner" data-reveal>
-        <p class="body-text">Our next step was finding publicly available body camera footage of an incident that would be a good test case. In 2023, Calvin Riley Sr was pulled over and arrested for a DUI. The human written police report claimed that an open bottle of vodka was found in the car, but body cam footage showed that the police officer, Kiersten Oliver, opened the bottle herself, dumped the contents and then put the empty bottle back into the car.</p>
+        <p class="body-text">The first test case we used was body camera footage from a 2023 incident in Tallahassee Florida where Calvin Riley Sr was pulled over and arrested for a DUI. This video generated national attention because the officer found an unsealed vodka bottle, opened and poured out its contents, then threw the bottle back into the car. While Riley claimed the officer planted evidence and the officer claimed she was following department procedures, both sides agreed that the vodka bottle was unsealed. How would PARIS draft a police report from this body camera footage?</p>
     </div>
 </section>
 
@@ -569,14 +569,7 @@
     </div>
 </section>
 
-<!-- Ch 10: Bridge text -->
-<section class="chapter">
-    <div class="ch-inner ch-inner--med" data-reveal>
-        <p class="bridge-text">How would AI draft a report about the officer opening the vodka bottle?</p>
-    </div>
-</section>
-
-<!-- Ch 11: Typewriter -->
+<!-- Ch 9: Typewriter -->
 <section class="chapter">
     <div class="ch-inner" data-reveal id="report-chapter">
         <div class="report-shell">
